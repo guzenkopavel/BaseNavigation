@@ -24,6 +24,7 @@
 		CB6893759A831F8724504B16 /* MainScreenEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB68964BEF0E7A3C4617F842 /* MainScreenEntity.swift */; };
 		CB689619F1E55EBD665A8EEA /* MainScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB689663C63A4228CA2DEC31 /* MainScreenCell.swift */; };
 		CB6896BBF597747595B7A475 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB68925E8678C5AD1EE86A41 /* ImageService.swift */; };
+		CB6898E35032CFB5AB4421EB /* ThreadSafeArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB689EE9685936BA27660C11 /* ThreadSafeArray.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		CB68944E31755BFE486C12BB /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		CB68964BEF0E7A3C4617F842 /* MainScreenEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenEntity.swift; sourceTree = "<group>"; };
 		CB689663C63A4228CA2DEC31 /* MainScreenCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenCell.swift; sourceTree = "<group>"; };
+		CB689EE9685936BA27660C11 /* ThreadSafeArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadSafeArray.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 			children = (
 				CB68925E8678C5AD1EE86A41 /* ImageService.swift */,
 				CB6891ABCF8F71D63BB4C3ED /* ImageCache.swift */,
+				CB689EE9685936BA27660C11 /* ThreadSafeArray.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				CB6893523E1CC2BD2A0B4C0C /* UIImageView+Extensions.swift in Sources */,
 				CB6896BBF597747595B7A475 /* ImageService.swift in Sources */,
 				CB68904F55C52963E0946EF7 /* ImageCache.swift in Sources */,
+				CB6898E35032CFB5AB4421EB /* ThreadSafeArray.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

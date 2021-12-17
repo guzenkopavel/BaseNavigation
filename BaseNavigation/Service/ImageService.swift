@@ -24,7 +24,7 @@ final class ImageService: ImageDownload {
     // Create queue for image download
     private let queue = DispatchQueue(label: "ImageService.main", qos: .background, attributes: .concurrent)
     // Array of tokens, for canceled image operation
-    private var tokensForCancel = [URLSessionDataTask]()
+    private var tokensForCancel: ThreadSafeArray<URLSessionDataTask> = ThreadSafeArray<URLSessionDataTask>()
     // Image cache, for store image after download
     private let cache = ImageCache()
 
@@ -38,14 +38,20 @@ final class ImageService: ImageDownload {
 
     func cancelImageLoad(_ url: String) {
         // Find index by url
-        guard let index = tokensForCancel.firstIndex(where: { $0.currentRequest?.url?.absoluteString == url }) else {
-            return
+        var index: Int?
+        for i in 0..<tokensForCancel.count {
+            if tokensForCancel[i].currentRequest?.url?.absoluteString == url {
+                index = i
+                break
+            }
         }
 
         // Get Task from array, cancel it and remove from store
-        let task = tokensForCancel[index]
-        task.cancel()
-        tokensForCancel.remove(at: index)
+        if let index = index {
+            let task = tokensForCancel[index]
+            task.cancel()
+            tokensForCancel.removeAtIndex(index: index)
+        }
     }
 
     func loadImageWithUrl(_ url: String, useCache: Bool = true, callback: @escaping (UIImage?, Error?) -> ()) {
