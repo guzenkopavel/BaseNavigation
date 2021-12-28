@@ -30,13 +30,13 @@ final class ThreadSafeArray<T>: ThreadSafeProtocol {
     private let accessQueue = DispatchQueue(label: "ThreadSafe", qos: .utility, attributes: .concurrent)
 
     public func append(newElement: T) {
-        accessQueue.async {
+        accessQueue.async(flags: .barrier) {
             self.array.append(newElement)
         }
     }
 
     public func removeAtIndex(index: Int) {
-        accessQueue.async {
+        accessQueue.async(flags: .barrier) {
             self.array.remove(at: index)
         }
     }
@@ -77,7 +77,7 @@ final class ThreadSafeArray<T>: ThreadSafeProtocol {
 
     public subscript(index: Int) -> T {
         set {
-            accessQueue.async {
+            accessQueue.async(flags: .barrier) {
                 self.array[index] = newValue
             }
         }
