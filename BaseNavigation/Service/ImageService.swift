@@ -16,8 +16,11 @@ protocol ImageDownload {
     // url: link to cancel the operation
     func cancelImageLoad(_ url: String)
 
-
-    func loadImageWithUrl(_ url: String, useCache: Bool, callback: @escaping (UIImage?, Error?) -> ())
+    // Load image by url from internet
+    // url: Internet url with http or https
+    // useCache: if true, response will be cached
+    // callback:
+    func loadImageWithUrl(_ url: String, useCache: Bool, callback: @escaping (UIImage?, Error?, URL?) -> ())
 }
 
 final class ImageService: ImageDownload {
@@ -54,19 +57,19 @@ final class ImageService: ImageDownload {
         }
     }
 
-    func loadImageWithUrl(_ url: String, useCache: Bool = true, callback: @escaping (UIImage?, Error?) -> ()) {
+    func loadImageWithUrl(_ url: String, useCache: Bool = true, callback: @escaping (UIImage?, Error?, URL?) -> ()) {
         let item = DispatchWorkItem {
             // Check url is valid
             guard let imageUrl = URL(string: url) else {
                 self.callBackDataForUrl(url) {
-                    callback(nil, ImageError.wrongUrl)
+                    callback(nil, ImageError.wrongUrl, nil)
                 }
                 return
             }
             // Check image on cache, than useCache flag enabled
             if useCache == true, let image = self.cache.image(for: imageUrl) {
                 self.callBackDataForUrl(url) {
-                    callback(image, nil)
+                    callback(image, nil, imageUrl)
                 }
                 return
             }
@@ -75,14 +78,15 @@ final class ImageService: ImageDownload {
                 // Check for internet and error
                 if let error = error {
                     self?.callBackDataForUrl(url) {
-                        callback(nil, error)
+                        callback(nil, error, imageUrl)
                     }
                     return
                 }
+
                 // Create from data image
                 guard let data = data, let image = UIImage(data: data) else {
                     self?.callBackDataForUrl(url) {
-                        callback(nil, ImageError.wrongImageData)
+                        callback(nil, ImageError.wrongImageData, imageUrl)
                     }
                     return
                 }
@@ -92,7 +96,7 @@ final class ImageService: ImageDownload {
                 }
                 // Return downloaded image
                 self?.callBackDataForUrl(url) {
-                    callback(image, nil)
+                    callback(image, nil, imageUrl)
                 }
             }
             task.resume()

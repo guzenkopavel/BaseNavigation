@@ -9,12 +9,13 @@ extension UIImageView {
     // The function allows you to load images asynchronously
     // value: link of image from internet
     // placeholderImage: default image, which will be displayed until you download a new one
-    // complete: optional callback, returning the downloaded image or error
-    public func setImageUrl(_ value: String, placeholderImage: UIImage? = nil, complete: ((UIImage?, Error?) -> ())? = nil) {
-        ImageService.shared.loadImageWithUrl(value) { image, error in
-            self.image = image
+    // complete: optional callback, returning the downloaded image or error, if complete is nil, image well be set as imageview.image value
+    public func setImageUrl(_ value: String, placeholderImage: UIImage? = nil, complete: ((UIImage?, Error?, URL?) -> ())? = nil) {
+        ImageService.shared.loadImageWithUrl(value) { image, error, url in
             if complete != nil {
-                complete?(image, error)
+                complete?(image, error, url)
+            } else {
+                self.image = image
             }
         }
     }

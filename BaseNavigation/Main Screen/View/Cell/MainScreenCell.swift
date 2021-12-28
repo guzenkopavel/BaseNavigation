@@ -26,10 +26,13 @@ class MainScreenCell: UICollectionViewCell {
             // Select cell background for better test
             imageView.backgroundColor = entity.backgroundColor
             // Download and set image by imageUrl
-            imageView.setImageUrl(entity.imageUrl) { image, error in
-                // if image was downloaded we notify about it
-                if image != nil {
-                    entity.delegate?.imageWasDownloadForEntity(entity)
+            imageView.setImageUrl(entity.imageUrl) { [weak self] image, error, url in
+                if url?.absoluteString == entity.imageUrl {
+                    self?.imageView.image = image
+                    // if image was downloaded we notify about it
+                    if image != nil {
+                        entity.delegate?.imageWasDownloadForEntity(entity)
+                    }
                 }
             }
         }
